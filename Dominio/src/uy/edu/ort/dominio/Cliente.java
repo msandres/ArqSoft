@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Renato
  */
-public class Cliente extends Usuario{
+public class Cliente extends Usuario {
 
     private List<Transacion> transaciones;
     private String nombre;
@@ -32,7 +32,7 @@ public class Cliente extends Usuario{
         this.paisEmision = paisEmision;
         this.fechaNacimiento = fechaNacimiento;
     }
-    
+
     public Cliente(long id, String user, String pass) {
         super(id, user, pass);
     }
@@ -92,5 +92,5 @@ public class Cliente extends Usuario{
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
+
 }

@@ -14,5 +14,6 @@ import uy.edu.ort.dominio.Aeropuerto;
  */
 @Remote
 public interface ManejadorObjetosSBRemote {
- public void alta(Aeropuerto aeropuerto);
+
+    public void alta(Aeropuerto aeropuerto);
 }

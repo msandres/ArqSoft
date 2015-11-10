@@ -14,5 +14,5 @@ public class Administrador extends Usuario {
     public Administrador(long id, String user, String pass) {
         super(id, user, pass);
     }
-    
+
 }

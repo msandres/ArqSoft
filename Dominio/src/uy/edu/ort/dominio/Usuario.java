@@ -10,6 +10,7 @@ package uy.edu.ort.dominio;
  * @author Renato
  */
 public class Usuario {
+
     private long id;
     private String user;
     private String pass;
@@ -19,14 +20,15 @@ public class Usuario {
         this.user = user;
         this.pass = pass;
     }
-    
+
     public long getId() {
         return id;
     }
+
     public String getUser() {
         return user;
     }
-    
+
     public void setUser(String user) {
         this.user = user;
     }
@@ -34,7 +36,7 @@ public class Usuario {
     public String getPass() {
         return pass;
     }
-    
+
     public void setPass(String pass) {
         this.pass = pass;
     }

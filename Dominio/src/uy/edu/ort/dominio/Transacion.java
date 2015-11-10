@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Renato
  */
 public class Transacion {
+
     private long id;
     private Vuelo vuelo;
     private String estado;
@@ -27,15 +28,15 @@ public class Transacion {
         this.codigoReserva = codigoReserva;
         this.cliente = cliente;
     }
-    
+
     public long getId() {
         return id;
     }
-    
+
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public Vuelo getVuelo() {
         return vuelo;
     }
@@ -55,11 +56,11 @@ public class Transacion {
     public Date getFecha() {
         return fecha;
     }
-    
+
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+
     public String getCodigoReserva() {
         return codigoReserva;
     }
