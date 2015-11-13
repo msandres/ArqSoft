@@ -88,7 +88,7 @@ public class ManejoViajes {
     public List<Vuelo> devolverVuelosSinEscala(Date fecha, 
             Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino) {
         //devuelve una lista de vuelos entre origen y destino
-        //posterior a la fecha
+        //posteriores a la fecha "fecha"
         List<Vuelo> adyacentes = new ArrayList<>();
         Calendar fechaICalendario = Calendar.getInstance();
         fechaICalendario.setTime(fecha); // Configuramos la fecha que se recibe
@@ -115,31 +115,30 @@ public class ManejoViajes {
         return null;
     }
 
-    public List<Vuelo> devolverRutaMenorDistancia(Date fecha, 
+    public List<Vuelo> devolverRutaMenorTiempo(Date fecha, 
             Aeropuerto origenAeropuerto, Aeropuerto destinoAeropuerto) {
-        // devuelve la ruta de menor distancia entre dos aeropuertos (origen, destino)
-
+        // devuelve la ruta de menor tiempo de escalas entre origen y destino
         return null;
     }
 
     // encuentra la ruta de menos costo desde un origen a un aeropuerto destino
     public List<Vuelo> devolverRutaMenorCosto(Date fecha, Aeropuerto origen, 
             Aeropuerto destino) {
-        // calcula la ruta más corta del inicio a los demás
-        encontrarRutaMinimaVueloDijkstra(fecha, origen);
+        // calcula la ruta más corta del inicio a todos los demás aeropuertos
+        devolverRutaMenorCostoDijkstra(fecha, origen);
         List<Vuelo> ruta = new ArrayList<>();
         // recupera el nodo final de la lista de terminados
-        NodoAeropuerto tmp;
-        tmp = buscarNodoFin(destino);
-        if (tmp == null) {
+        NodoAeropuerto nodo;
+        nodo = buscarNodoFin(destino);
+        if (nodo == null) {
             return ruta;
         }
         // crea una pila para almacenar la ruta desde el nodo final al origen
         Stack<NodoAeropuerto> pila = new Stack<>();
-        while (tmp.getProcedencia() != null)
+        while (nodo.getProcedencia() != null)
         {
-            pila.add(tmp);
-            tmp = tmp.getProcedencia();
+            pila.add(nodo);
+            nodo = nodo.getProcedencia();
         }
         // recorre la pila para armar la ruta en el orden correcto
         while (!pila.isEmpty()) {
@@ -149,6 +148,7 @@ public class ManejoViajes {
     }
 
     private NodoAeropuerto buscarNodoFin(Aeropuerto fin) {
+        //busca el nodo con el aeropuerto destino, para luego armar ruta
         NodoAeropuerto nodo = null;
         for (NodoAeropuerto temp : nodosListos) {
             if (temp.getAeropuerto().getCodigoAeropuerto().equals(
@@ -172,20 +172,20 @@ public class ManejoViajes {
     }
 
     // encuentra la ruta más corta desde el nodo inicial a todos los demás
-    private void encontrarRutaMinimaVueloDijkstra(Date fecha, Aeropuerto inicio) {
+    private void devolverRutaMenorCostoDijkstra(Date fecha, Aeropuerto inicio) {
         Queue<NodoAeropuerto> cola = new PriorityQueue<>(); // cola de prioridad
         NodoAeropuerto ni = new NodoAeropuerto(inicio);          // nodo inicial
         nodosListos = new LinkedList<>();// lista de nodos ya revisados
         cola.add(ni);             // Agregar nodo inicial a la cola de prioridad
-        Date fechaAux;
+        Date fechaVuelo;
         while (!cola.isEmpty()) {        // mientras que la cola no esta vacia
             NodoAeropuerto tmp = cola.poll();     // saca el primer elemento
             nodosListos.add(tmp);           // lo manda a la lista de terminados
-            fechaAux = sumarHoras(fecha, tmp.getDuracion());
-            List<Vuelo> vuelosAdy = vuelosDiarios(fechaAux, tmp.getAeropuerto());
+            fechaVuelo = sumarHoras(fecha, tmp.getDuracion());
+            List<Vuelo> vuelosAdy = vuelosDiarios(fechaVuelo, tmp.getAeropuerto());
             // si ya habia revisado un aeropuerto lo elimino
             noVisitados(vuelosAdy);
-            for (Vuelo tmpVuelo : vuelosAdy) {// revisa los nodos hijos del nodo tmp
+            for (Vuelo tmpVuelo : vuelosAdy) {// revisa los nodos hijos del nodo nodo
                 NodoAeropuerto nod = new NodoAeropuerto(
                         tmpVuelo.getAeropuertoDestino(),
                         tmp.getTarifa() + tmpVuelo.getTarifa(),
@@ -227,7 +227,7 @@ public class ManejoViajes {
     }
 
     private void noVisitados(List<Vuelo> lista) {
-        //remueve los aeropuertos que ya fueron visitados en los adyacentes        
+        //elimina los aeropuertos que ya fueron visitados de la lista       
         List<Vuelo> listaRemove = new ArrayList<>();
         for (Vuelo tmp : lista) {
             if (fueVisitadoNodo(tmp.getAeropuertoDestino())) {
@@ -238,6 +238,4 @@ public class ManejoViajes {
             lista.remove(tmp);
         }
     }
-
-
 }
