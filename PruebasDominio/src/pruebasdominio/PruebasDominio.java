@@ -50,19 +50,7 @@ public class PruebasDominio {
                 aeropuertoOrigen, aeropuertoDestino);
         imprimirVuelos(vueloDestinos);
         
-        
-        
-        Date fechaDia = formatDia.parse("13-11-2015 21:07");
-        Date fechaHora = formatHora.parse("13:42");
-        
-        Calendar fechaCal = Calendar.getInstance();
-        fechaCal.setTime(fechaHora); // Configuramos la fecha que se recibe
-        int hora = fechaCal.get(Calendar.HOUR_OF_DAY);
-        System.out.println("...."+hora);
-        
-        fecha = mv.sumarHoras(fechaDia, fechaHora);
-        System.out.println(fecha);
-        
+       
 //        fecha = formatDia.parse("10-11-2015 00:00");
 //        aeropuertoOrigen = obtenerAeropuerto("POA");
 //        aeropuertoDestino = obtenerAeropuerto("GRU");
