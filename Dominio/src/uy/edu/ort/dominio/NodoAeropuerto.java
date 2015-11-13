@@ -15,27 +15,26 @@ import java.util.logging.Logger;
 public class NodoAeropuerto implements Comparable<NodoAeropuerto> {
 
     private Aeropuerto aeropuerto;
-    private float tarifa;
+    private float tarifa;// = 0;//Integer.MAX_VALUE;
     private Date duracion;
     private Vuelo vuelo;
     private NodoAeropuerto procedencia;
 
-    public NodoAeropuerto(Aeropuerto aeropuerto, float tarifa, Date duracion, 
-            Vuelo vuelo, NodoAeropuerto procedencia) {
+    public NodoAeropuerto(Aeropuerto aeropuerto, float tarifa, Date duracion, Vuelo vuelo, NodoAeropuerto procedencia) {
         this.aeropuerto = aeropuerto;
         this.tarifa = tarifa;
         this.duracion = duracion;
         this.vuelo = vuelo;
         this.procedencia = procedencia;
     }
-    
-    public NodoAeropuerto(Aeropuerto aeropuerto) {
+
+    public NodoAeropuerto(Aeropuerto aeropuerto){
         try {
             Vuelo v = new Vuelo(aeropuerto);
             this.aeropuerto=aeropuerto;
             SimpleDateFormat formatHora = new SimpleDateFormat("kk:mm");
             this.duracion = formatHora.parse("00:00");
-            this.tarifa = Integer.MAX_VALUE;
+            this.tarifa = 0;
             this.vuelo = v;
             this.procedencia = null;
         } catch (ParseException ex) {
@@ -64,10 +63,11 @@ public class NodoAeropuerto implements Comparable<NodoAeropuerto> {
     }
 
     @Override
-    public int compareTo(NodoAeropuerto nodoAeropuerto) {
-        return (int) this.tarifa - (int) nodoAeropuerto.tarifa;
+    public int compareTo(NodoAeropuerto tmp) {
+        return (int) this.tarifa - (int) tmp.tarifa;
     }
- 
+
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -83,6 +83,9 @@ public class NodoAeropuerto implements Comparable<NodoAeropuerto> {
             return false;
         }
         final NodoAeropuerto other = (NodoAeropuerto) obj;
-        return Objects.equals(this.aeropuerto, other.aeropuerto);
+        if (!Objects.equals(this.aeropuerto, other.aeropuerto)) {
+            return false;
+        }
+        return true;
     }
 }
