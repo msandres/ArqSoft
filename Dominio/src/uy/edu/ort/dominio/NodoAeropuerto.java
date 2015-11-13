@@ -5,36 +5,84 @@
  */
 package uy.edu.ort.dominio;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class NodoAeropuerto implements Comparable<NodoAeropuerto> {
 
-    Aeropuerto id;
-    float tarifa = Integer.MAX_VALUE;
-    NodoAeropuerto procedencia = null;
+    private Aeropuerto aeropuerto;
+    private float tarifa;
+    private Date duracion;
+    private Vuelo vuelo;
+    private NodoAeropuerto procedencia;
 
-    public NodoAeropuerto(Aeropuerto x, float d, NodoAeropuerto p) {
-        id = x;
-        tarifa = d;
-        procedencia = p;
+    public NodoAeropuerto(Aeropuerto aeropuerto, float tarifa, Date duracion, 
+            Vuelo vuelo, NodoAeropuerto procedencia) {
+        this.aeropuerto = aeropuerto;
+        this.tarifa = tarifa;
+        this.duracion = duracion;
+        this.vuelo = vuelo;
+        this.procedencia = procedencia;
     }
-
-    public NodoAeropuerto() {
-    }
-
-    public NodoAeropuerto(Aeropuerto x) {
-        this(x, 0, null);
-    }
-
-    @Override
-    public int compareTo(NodoAeropuerto tmp) {
-        return (int) this.tarifa - (int) tmp.tarifa;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        NodoAeropuerto tmp = (NodoAeropuerto) o;
-        if (tmp.id == this.id) {
-            return true;
+    
+    public NodoAeropuerto(Aeropuerto aeropuerto) {
+        try {
+            Vuelo v = new Vuelo(aeropuerto);
+            this.aeropuerto=aeropuerto;
+            SimpleDateFormat formatHora = new SimpleDateFormat("kk:mm");
+            this.duracion = formatHora.parse("00:00");
+            this.tarifa = Integer.MAX_VALUE;
+            this.vuelo = v;
+            this.procedencia = null;
+        } catch (ParseException ex) {
+            Logger.getLogger(NodoAeropuerto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+    }
+
+    public Aeropuerto getAeropuerto() {
+        return aeropuerto;
+    }
+
+    public float getTarifa() {
+        return tarifa;
+    }
+
+    public Date getDuracion() {
+        return duracion;
+    }
+
+    public Vuelo getVuelo() {
+        return vuelo;
+    }
+
+    public NodoAeropuerto getProcedencia() {
+        return procedencia;
+    }
+
+    @Override
+    public int compareTo(NodoAeropuerto nodoAeropuerto) {
+        return (int) this.tarifa - (int) nodoAeropuerto.tarifa;
+    }
+ 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NodoAeropuerto other = (NodoAeropuerto) obj;
+        return Objects.equals(this.aeropuerto, other.aeropuerto);
     }
 }

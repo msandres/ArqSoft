@@ -22,6 +22,11 @@ public class Aeropuerto {
     public Aeropuerto() {
     }
 
+    public Aeropuerto(long id, String codigoAeropuerto) {
+        this.id = id;
+        this.codigoAeropuerto = codigoAeropuerto;
+    }
+
     public Aeropuerto(Aeropuerto temp) {
         this.id = temp.id;
         this.nombre = temp.nombre;
