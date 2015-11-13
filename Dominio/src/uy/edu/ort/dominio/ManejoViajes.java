@@ -26,7 +26,7 @@ public class ManejoViajes {
     private List<Vuelo> vuelos;
     private List<Usuario> usuarios;
     private List<Transacion> transaciones;
-    private List<NodoAeropuerto> nodosListos; // nodos revisados Dijkstra  
+    private List<NodoAeropuerto> nodosListos = null; // nodos revisados Dijkstra  
 
     private ManejoViajes() {
         aeropuertos = new ArrayList<>();
@@ -34,7 +34,6 @@ public class ManejoViajes {
         vuelos = new ArrayList<>();
         usuarios = new ArrayList<>();
         transaciones = new ArrayList<>();
-        nodosListos = new LinkedList<>();
     }
 
     public static ManejoViajes obtenerInstanciaManejoViajes() {
@@ -92,21 +91,26 @@ public class ManejoViajes {
         Calendar fechaICalendario = Calendar.getInstance();
         fechaICalendario.setTime(fecha); // Configuramos la fecha que se recibe
         Calendar fechaFCalendario = Calendar.getInstance();
-        vuelos.stream().filter((temp) -> (temp.getAeropuertoOrigen().getCodigoAeropuerto().equals(
-                aeropuertoOrigen.getCodigoAeropuerto()))).filter((temp) -> (temp.getAeropuertoDestino().getCodigoAeropuerto().equals(
-                        aeropuertoDestino.getCodigoAeropuerto()))).forEach((temp) -> {
-                            Calendar tempfecha = Calendar.getInstance();
-                            tempfecha.setTime(temp.getFecha());
-                            if (tempfecha.after(fechaICalendario)) {
-                                adyacentes.add(temp);
+        for (Vuelo temp : vuelos) {
+            if (temp.getAeropuertoOrigen().getCodigoAeropuerto().equals(
+                    aeropuertoOrigen.getCodigoAeropuerto())) {
+                if (temp.getAeropuertoDestino().getCodigoAeropuerto().equals(
+                        aeropuertoDestino.getCodigoAeropuerto())) {
+                    Calendar tempfecha = Calendar.getInstance();
+                    tempfecha.setTime(temp.getFecha());
+                    if (tempfecha.after(fechaICalendario)) {
+                        adyacentes.add(temp);
+                    }
+                }
             }
-        });
+        }
         return adyacentes;
     }
 
     public List<Transacion> devolverTransaciones(Cliente cliente) {
         //devuelve el listado de transaciones que ha efectuado dicho cliente
-        return cliente.getTransaciones();
+
+        return null;
     }
 
     public List<Vuelo> devolverRutaMenorTiempo(Date fecha, 
@@ -169,6 +173,7 @@ public class ManejoViajes {
     private void devolverRutaMenorCostoDijkstra(Date fecha, Aeropuerto inicio) {
         Queue<NodoAeropuerto> cola = new PriorityQueue<>(); // cola de prioridad
         NodoAeropuerto ni = new NodoAeropuerto(inicio);          // nodo inicial
+        nodosListos = new LinkedList<>();// lista de nodos ya revisados
         cola.add(ni);             // Agregar nodo inicial a la cola de prioridad
         Date fechaVuelo;
         while (!cola.isEmpty()) {        // mientras que la cola no esta vacia
@@ -222,11 +227,13 @@ public class ManejoViajes {
     private void noVisitados(List<Vuelo> lista) {
         //elimina los aeropuertos que ya fueron visitados de la lista       
         List<Vuelo> listaRemove = new ArrayList<>();
-        lista.stream().filter((tmp) -> (fueVisitadoNodo(tmp.getAeropuertoDestino()))).forEach((tmp) -> {
-            listaRemove.add(tmp);
-        });
-        listaRemove.stream().forEach((tmp) -> {
+        for (Vuelo tmp : lista) {
+            if (fueVisitadoNodo(tmp.getAeropuertoDestino())) {
+                listaRemove.add(tmp);
+            }
+        }
+        for (Vuelo tmp : listaRemove) {
             lista.remove(tmp);
-        });
+        }
     }
 }
