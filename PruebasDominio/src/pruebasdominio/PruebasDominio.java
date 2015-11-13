@@ -7,6 +7,7 @@ package pruebasdominio;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import uy.edu.ort.dominio.Aerolinea;
@@ -38,21 +39,44 @@ public class PruebasDominio {
         cargarDatos();
 
         SimpleDateFormat formatDia = new SimpleDateFormat("dd-MM-yyyy kk:mm");
-        Date fecha = formatDia.parse("13-11-2015 00:01");
+        SimpleDateFormat formatHora = new SimpleDateFormat("kk:mm");
+        
+        Date fecha = formatDia.parse("13-11-2015 00:00");
         System.out.println(fecha);
 
-        Aeropuerto aeropuertoOrigen = obtenerAeropuerto("MVD");
-        Aeropuerto aeropuertoDestino = obtenerAeropuerto("PTY");
-        List<Aeropuerto> aeroDestinos = mv.devolverRutaMenorCosto(fecha,
+        Aeropuerto aeropuertoOrigen = obtenerAeropuerto("MAD");
+        Aeropuerto aeropuertoDestino = obtenerAeropuerto("MVD");
+        List<Vuelo> vueloDestinos = mv.devolverRutaMenorCosto(fecha,
                 aeropuertoOrigen, aeropuertoDestino);
-        imprimirAeropuertos(aeroDestinos);
-
+        imprimirVuelos(vueloDestinos);
+        
+        
+        
+        Date fechaDia = formatDia.parse("13-11-2015 21:07");
+        Date fechaHora = formatHora.parse("13:42");
+        
+        Calendar fechaCal = Calendar.getInstance();
+        fechaCal.setTime(fechaHora); // Configuramos la fecha que se recibe
+        int hora = fechaCal.get(Calendar.HOUR_OF_DAY);
+        System.out.println("...."+hora);
+        
+        fecha = mv.sumarHoras(fechaDia, fechaHora);
+        System.out.println(fecha);
+        
+//        fecha = formatDia.parse("10-11-2015 00:00");
+//        aeropuertoOrigen = obtenerAeropuerto("POA");
+//        aeropuertoDestino = obtenerAeropuerto("GRU");
+//        List<Vuelo> vuelos = mv.devolverVuelosSinEscala(fecha,
+//                aeropuertoOrigen, aeropuertoDestino);
+//        imprimirVuelos(vuelos);
     }
 
     public static void imprimirVuelos(List<Vuelo> vueloDestinos) {
         int i = 1;
         for (Vuelo temp : vueloDestinos) {
-            System.out.println(i + ") " + temp.getAeropuertoDestino().getNombre() + " - " + temp.getAeropuertoDestino().getCodigoAeropuerto() + " - " + temp.getTarifa());
+            System.out.println(i + ") " + temp.getAeropuertoOrigen().getCodigoAeropuerto()+ " - " 
+                    + temp.getAeropuertoDestino().getCodigoAeropuerto() + " - " 
+                    + temp.getTarifa()+ " - " + temp.getFecha()+ " - " + temp.getDuracion());
             i++;
         }
 
@@ -630,7 +654,7 @@ public class PruebasDominio {
             Vuelo vuelo434 = new Vuelo(434, aerol2, aerop1, aerop15, formatDia.parse("11-11-2015 15:21"), formatHora.parse("07:42"), (float) 891, 72);
             Vuelo vuelo435 = new Vuelo(435, aerol3, aerop1, aerop3, formatDia.parse("14-11-2015 23:45"), formatHora.parse("01:18"), (float) 152, 48);
             Vuelo vuelo436 = new Vuelo(436, aerol4, aerop1, aerop3, formatDia.parse("13-11-2015 00:14"), formatHora.parse("01:18"), (float) 166, 52);
-            Vuelo vuelo437 = new Vuelo(437, aerol5, aerop1, aerop3, formatDia.parse("10-11-2015 20:24"), formatHora.parse("01:18"), (float) 176, 38);
+            Vuelo vuelo437 = new Vuelo(437, aerol5, aerop1, aerop3, formatDia.parse("13-11-2015 20:24"), formatHora.parse("01:18"), (float) 176, 38);
             Vuelo vuelo438 = new Vuelo(438, aerol6, aerop2, aerop3, formatDia.parse("10-11-2015 04:04"), formatHora.parse("01:41"), (float) 211, 66);
             Vuelo vuelo439 = new Vuelo(439, aerol7, aerop3, aerop15, formatDia.parse("12-11-2015 14:09"), formatHora.parse("08:01"), (float) 1002, 67);
             Vuelo vuelo440 = new Vuelo(440, aerol8, aerop4, aerop15, formatDia.parse("11-11-2015 16:19"), formatHora.parse("08:06"), (float) 954, 68);
