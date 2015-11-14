@@ -19,14 +19,15 @@ public class Transacion {
     private Date fecha;
     private String codigoReserva;
     private Cliente cliente;
+    private int cantReserva;
 
-    public Transacion(long id, Vuelo vuelo, String estado, Date fecha, String codigoReserva, Cliente cliente) {
-        this.id = id;
+    public Transacion(Vuelo vuelo, String estado, Date fecha, String codigoReserva, Cliente cliente, int cantReservas) {
         this.vuelo = vuelo;
         this.estado = estado;
         this.fecha = fecha;
         this.codigoReserva = codigoReserva;
-        this.cliente = cliente;
+        this.cliente = cliente;  
+        this.cantReserva = cantReservas;
     }
 
     public long getId() {
@@ -77,4 +78,13 @@ public class Transacion {
         this.cliente = cliente;
     }
 
+    public int getCantReserva() {
+        return cantReserva;
+    }
+
+    public void setCantReserva(int cantReserva) {
+        this.cantReserva = cantReserva;
+    }
+
+    
 }
