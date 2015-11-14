@@ -27,28 +27,31 @@ public class PruebasDominio {
     private static List<Aerolinea> aerolineas;
     private static List<Vuelo> vuelos;
     private static List<Usuario> usuarios;
-    private static List<Transacion> transaciones;
-
+    private static List<Transacion> reservas;
+private static List<Transacion> compras;
+    
     public static void main(String[] args) throws ParseException {
         ManejoViajes mv = ManejoViajes.obtenerInstanciaManejoViajes();
         aeropuertos = mv.getAeropuertos();
         aerolineas = mv.getAerolineas();
         vuelos = mv.getVuelos();
         usuarios = mv.getUsuarios();
-        transaciones = mv.getTransaciones();
+        reservas = mv.getReservas();
+        compras = mv.getCompras();
         cargarDatos();
 
         SimpleDateFormat formatDia = new SimpleDateFormat("dd-MM-yyyy kk:mm");
         SimpleDateFormat formatHora = new SimpleDateFormat("kk:mm");
         
-        Date fecha = formatDia.parse("13-11-2015 00:00");
-        System.out.println(fecha);
+        Date fechaIda = formatDia.parse("10-11-2015 00:00");
+        Date fechaVuelta = formatDia.parse("13-11-2015 00:00");
+        System.out.println(fechaIda);
 
         Aeropuerto aeropuertoOrigen = obtenerAeropuerto("MAD");
         Aeropuerto aeropuertoDestino = obtenerAeropuerto("MVD");
-        List<Vuelo> vueloDestinos = mv.devolverRutaMenorCosto(fecha,
-                aeropuertoOrigen, aeropuertoDestino);
-        imprimirVuelos(vueloDestinos);
+        List<Transacion> transaciones = mv.consultaVuelos(null, aeropuertoOrigen, aeropuertoDestino, true, fechaIda, fechaVuelta,4);
+        
+        imprimirTransaciones(transaciones);
         
        
 //        fecha = formatDia.parse("10-11-2015 00:00");
@@ -59,12 +62,27 @@ public class PruebasDominio {
 //        imprimirVuelos(vuelos);
     }
 
+    public static void imprimirTransaciones(List<Transacion> transaciones){
+        int i = 1;
+        for (Transacion temp : transaciones) {
+            System.out.println(i + ") " 
+                    + temp.getVuelo().getAeropuertoOrigen().getCodigoAeropuerto()+ 
+                    " - " 
+                    + temp.getVuelo().getAeropuertoDestino().getCodigoAeropuerto() 
+                    + " - " 
+                    + temp.getVuelo().getTarifa()+ " - " + temp.getFecha()+ " - " 
+                    + temp.getVuelo().getDuracion()+ " - " + 
+                    temp.getVuelo().getDisponibles());
+            i++;
+        }
+    }
+    
     public static void imprimirVuelos(List<Vuelo> vueloDestinos) {
         int i = 1;
         for (Vuelo temp : vueloDestinos) {
             System.out.println(i + ") " + temp.getAeropuertoOrigen().getCodigoAeropuerto()+ " - " 
                     + temp.getAeropuertoDestino().getCodigoAeropuerto() + " - " 
-                    + temp.getTarifa()+ " - " + temp.getFecha()+ " - " + temp.getDuracion());
+                    + temp.getTarifa()+ " - " + temp.getFecha()+ " - " + temp.getDuracion()+ " - " + temp.getDisponibles());
             i++;
         }
 
@@ -602,7 +620,7 @@ public class PruebasDominio {
             Vuelo vuelo394 = new Vuelo(394, aerol10, aerop1, aerop5, formatDia.parse("10-11-2015 13:12"), formatHora.parse("02:22"), (float) 329, 86);
             Vuelo vuelo395 = new Vuelo(395, aerol11, aerop1, aerop13, formatDia.parse("12-11-2015 09:07"), formatHora.parse("11:16"), (float) 1336, 51);
             Vuelo vuelo396 = new Vuelo(396, aerol12, aerop1, aerop5, formatDia.parse("13-11-2015 13:26"), formatHora.parse("02:22"), (float) 324, 6);
-            Vuelo vuelo397 = new Vuelo(397, aerol1, aerop1, aerop5, formatDia.parse("14-11-2015 00:57"), formatHora.parse("02:22"), (float) 311, 23);
+            Vuelo vuelo397 = new Vuelo(397, aerol1, aerop1, aerop5, formatDia.parse("14-11-2015 00:57"), formatHora.parse("02:22"), (float) 311, 0);
             Vuelo vuelo398 = new Vuelo(398, aerol2, aerop1, aerop5, formatDia.parse("11-11-2015 19:55"), formatHora.parse("02:22"), (float) 292, 88);
             Vuelo vuelo399 = new Vuelo(399, aerol3, aerop3, aerop5, formatDia.parse("11-11-2015 04:33"), formatHora.parse("01:04"), (float) 143, 66);
             Vuelo vuelo400 = new Vuelo(400, aerol4, aerop4, aerop5, formatDia.parse("12-11-2015 03:36"), formatHora.parse("00:20"), (float) 45, 100);
