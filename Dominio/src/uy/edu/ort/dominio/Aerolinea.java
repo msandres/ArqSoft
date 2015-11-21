@@ -11,13 +11,26 @@ package uy.edu.ort.dominio;
  */
 public class Aerolinea {
 
+    private static long cont = 5000;
+
     private long id;
     private String nombre;
     private String codigoAerolinea;
     private String informacion;
 
+    public Aerolinea() {
+    }
+
     public Aerolinea(long id, String nombre, String codigoAerolinea, String informacion) {
         this.id = id;
+        this.nombre = nombre;
+        this.codigoAerolinea = codigoAerolinea;
+        this.informacion = informacion;
+    }
+
+    public Aerolinea(String nombre, String codigoAerolinea, String informacion) {
+        this.id = cont;
+        cont++;
         this.nombre = nombre;
         this.codigoAerolinea = codigoAerolinea;
         this.informacion = informacion;

@@ -5,6 +5,7 @@
  */
 package uy.edu.ort.dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
  */
 public class Cliente extends Usuario {
 
-    private List<Transacion> transaciones;
     private String nombre;
     private String apellido;
     private String tipoDocumento;
@@ -22,9 +22,8 @@ public class Cliente extends Usuario {
     private String paisEmision;
     private Date fechaNacimiento;
 
-    public Cliente(List<Transacion> transaciones, String nombre, String apellido, String tipoDocumento, String numeroDocumento, String paisEmision, Date fechaNacimiento, long id, String user, String pass) {
+    public Cliente(String nombre, String apellido, String tipoDocumento, String numeroDocumento, String paisEmision, Date fechaNacimiento, long id, String user, String pass) {
         super(id, user, pass);
-        this.transaciones = transaciones;
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipoDocumento = tipoDocumento;
@@ -37,8 +36,7 @@ public class Cliente extends Usuario {
         super(id, user, pass);
     }
 
-    public List<Transacion> getTransaciones() {
-        return transaciones;
+    public Cliente() {
     }
 
     public String getNombre() {
@@ -65,10 +63,6 @@ public class Cliente extends Usuario {
         return fechaNacimiento;
     }
 
-    public void setTransaciones(List<Transacion> transaciones) {
-        this.transaciones = transaciones;
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -92,5 +86,4 @@ public class Cliente extends Usuario {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
 }

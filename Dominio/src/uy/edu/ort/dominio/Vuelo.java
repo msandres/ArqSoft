@@ -39,7 +39,10 @@ public class Vuelo {
 
     public Vuelo(Aeropuerto aeropuertoOrigen) {
         this.aeropuertoOrigen = aeropuertoOrigen;
-        aeropuertoDestino = new Aeropuerto(-1,"");
+        aeropuertoDestino = new Aeropuerto(-1, "");
+    }
+
+    public Vuelo() {
     }
 
     public long getId() {

@@ -21,6 +21,9 @@ public class Usuario {
         this.pass = pass;
     }
 
+    public Usuario() {
+    }
+
     public long getId() {
         return id;
     }

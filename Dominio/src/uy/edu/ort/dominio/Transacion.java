@@ -13,6 +13,9 @@ import java.util.Date;
  */
 public class Transacion {
 
+    //borrar cuando se implemente base de datos.
+    private static long cont=1000;   
+    
     private long id;
     private Vuelo vuelo;
     private String estado;
@@ -21,6 +24,13 @@ public class Transacion {
     private Cliente cliente;
     private int cantReserva;
 
+    public Transacion() {
+        id=cont;
+        cont++;
+    }
+
+    
+    
     public Transacion(Vuelo vuelo, String estado, Date fecha, String codigoReserva, Cliente cliente, int cantReservas) {
         this.vuelo = vuelo;
         this.estado = estado;
